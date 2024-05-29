@@ -8,18 +8,18 @@ public class PlatformScript : MonoBehaviour
     public int maxBounces = 2;  // Mängden studsningar innan plattformen förstörs
     private int currentBounces = 0;  // Mängden studsar
 
-    private GameManager gameManager;  // Referens till GameManager
+    protected GameManager gameManager;  // Referens till GameManager
 
-    void Start()
+    protected virtual void Start()
     {
         gameManager = FindObjectOfType<GameManager>();  // Hitta GameManager i scenen
         if (gameManager == null)
         {
-            Debug.LogError("GAMEMANEGER NOT FOUND :(");  // Om GamemManeger inte hittas
+            Debug.LogError("GAMEMANEGER NOT FOUND :(");  // Om GameManager inte hittas
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.relativeVelocity.y <= 0f)
         {
@@ -38,9 +38,9 @@ public class PlatformScript : MonoBehaviour
                     gameManager.IncreaseScore(10);
                 }
 
+                // Förstör plattformen om den har studsats på tillräckligt många gånger
                 if (currentBounces >= maxBounces)
                 {
-                    // Förstör plattformen om den har studsats på innan
                     Destroy(gameObject);
                 }
             }
